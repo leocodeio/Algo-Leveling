@@ -22,7 +22,7 @@ SET row_security = off;
 --
 
 COPY public.ar_internal_metadata (key, value, created_at, updated_at) FROM stdin;
-environment	production	2024-10-17 04:42:07.222296	2024-10-17 04:42:07.222296
+environment	production	2024-10-18 16:09:27.849537	2024-10-18 16:09:27.849537
 \.
 
 
