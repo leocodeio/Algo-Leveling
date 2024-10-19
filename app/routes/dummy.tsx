@@ -1,45 +1,100 @@
 import { useState, FormEvent } from "react";
 import { json } from "@remix-run/node";
-import { useActionData, Form } from "@remix-run/react";
+import { useActionData, Form, useLoaderData } from "@remix-run/react";
 
 export const action = async ({ request }: { request: Request }) => {
   const formData = await request.formData();
-  console.log(formData);
-  // Process form data and make API call to Judge0
-  // Return the response as JSON
+  // console.log(formData);
+  const sourceCode = btoa(formData.get("sourceCode") as string);
+  const languageId = formData.get("languageId");
+  const stdin = formData.get("stdin");
+
+  // execute code on judge0
+  const executionPayload = {
+    source_code: sourceCode,
+    language_id: languageId,
+    stdin: stdin,
+  };
+
+  const executionRes = await fetch(
+    `${process.env.VITE_JUDGE0_SERVER_URI}/submissions?base64_encoded=true&wait=true`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(executionPayload),
+    }
+  );
+
+  // get token from execution response
+  const { token } = await executionRes.json();
+
+  // get execution status
+  const executionStatusRes = await fetch(
+    `${process.env.VITE_JUDGE0_SERVER_URI}/submissions/${token}?base64_encoded=true&fields=*`
+  );
+  const executionStatus = await executionStatusRes.json();
+  console.log(executionStatus);
+  // Extract status and message from the response
+  const accepted = executionStatus.status.description;
+
+  // Decode the base64-encoded stdout and stderr, if they exist
+  const stdout = executionStatus.stdout ? atob(executionStatus.stdout) : "";
+  const stderr = executionStatus.stderr ? atob(executionStatus.stderr) : "";
+  const compileOutput = executionStatus.compile_output
+    ? atob(executionStatus.compile_output)
+    : "";
+
+  const output = stdout + stderr + compileOutput;
+
+  // Log the decoded output and error (for debugging)
+  console.log(accepted, output);
+
+  // Return the decoded output back to the frontend as a JSON response
   return json({
-    /* API response */
+    accepted: accepted,
+    output: output,
+  });
+};
+
+export const loader = async () => {
+  // load languages
+  const languagesRes = await fetch(
+    `${process.env.VITE_JUDGE0_SERVER_URI}/languages`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  const languages = await languagesRes.json();
+
+  return json({
+    languages: languages,
   });
 };
 
 export default function Dummy() {
   const [log, setLog] = useState("");
-  const actionData = useActionData();
-
-  const appendToLog = (text: string) => {
-    setLog((prevLog) => prevLog + text + "\n");
-  };
-
+  const actionData = useActionData<typeof action>();
+  const { languages } = useLoaderData<typeof loader>();
+  let Response;
+  if (actionData) {
+    const { accepted, output } = actionData as {
+      accepted: string;
+      output: string;
+    };
+    Response = {
+      accepted: accepted,
+      output: output,
+    };
+  }
   return (
     <div className="p-4 max-w-2xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Judge0 Client</h1>
+      <h1 className="text-2xl font-bold mb-4">Algo Leveling</h1>
       <Form method="post" className="space-y-4">
-        <div>
-          <label
-            htmlFor="apiUrl"
-            className="block text-sm font-medium text-gray-700"
-          >
-            API URL
-          </label>
-          <input
-            type="url"
-            id="apiUrl"
-            name="apiUrl"
-            required
-            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-          />
-        </div>
-
         <div>
           <label
             htmlFor="sourceCode"
@@ -64,13 +119,16 @@ export default function Dummy() {
           >
             Language ID
           </label>
-          <input
-            type="text"
-            id="languageId"
+          <select
             name="languageId"
-            defaultValue="50"
             className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-          />
+          >
+            {languages.map((language: { id: number; name: string }) => (
+              <option key={language.id} value={language.id}>
+                {language.name}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div>
@@ -110,9 +168,17 @@ export default function Dummy() {
       <pre className="bg-gray-100 p-4 rounded-md">{log}</pre>
 
       <h2 className="text-xl font-semibold mt-6">API Response</h2>
-      <pre className="bg-gray-100 p-4 rounded-md">
-        {JSON.stringify(actionData as Record<string, unknown>, null, 2)}
-      </pre>
+      {actionData && Response ? (
+        <pre className="bg-gray-100 p-4 rounded-md">
+          {Object.entries(Response).map(([key, value]) => (
+            <div key={key} className="flex flex-col w-full">
+              <span className="font-bold">{key}:</span> {value}
+            </div>
+          ))}
+        </pre>
+      ) : (
+        <p>No response yet</p>
+      )}
     </div>
   );
 }
