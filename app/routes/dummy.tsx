@@ -1,6 +1,7 @@
 import { useState, FormEvent } from "react";
 import { json } from "@remix-run/node";
 import { useActionData, Form, useLoaderData } from "@remix-run/react";
+import {Code}  from "./code";
 
 export const action = async ({ request }: { request: Request }) => {
   const formData = await request.formData();
@@ -93,6 +94,7 @@ export default function Dummy() {
   }
   return (
     <div className="p-4 max-w-2xl mx-auto">
+      <Code />
       <h1 className="text-2xl font-bold mb-4">Algo Leveling</h1>
       <Form method="post" className="space-y-4">
         <div>
