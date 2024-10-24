@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { json } from "@remix-run/node";
 import { useActionData, Form, useLoaderData, Outlet } from "@remix-run/react";
+import Code from "~/utils/crop";
 
 export const action = async ({ request }: { request: Request }) => {
   const formData = await request.formData();
@@ -78,7 +79,8 @@ export const loader = async () => {
 
 export default function Dummy() {
   const [log, setLog] = useState("");
-  const [selectedLanguage, setSelectedLanguage] = useState<number | null>(71); // New state for selected language
+  const [selectedLanguage, setSelectedLanguage] = useState<number>(71);
+  const [userCode, setUserCode] = useState<string>("");
   const actionData = useActionData<typeof action>();
   const { languages } = useLoaderData<typeof loader>();
 
@@ -136,6 +138,7 @@ export default function Dummy() {
           </div>
 
           <div className="flex space-x-2">
+            <input type="hidden" name="sourceCode" value={userCode} />
             <button
               type="submit"
               className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -168,7 +171,11 @@ export default function Dummy() {
           <p>No response yet</p>
         )}
       </div>
-      <Outlet context={{ selectedLanguage }} />
+      <Code
+        userCode={userCode}
+        setUserCode={setUserCode}
+        selectedLanguage={selectedLanguage}
+      />
     </div>
   );
 }
