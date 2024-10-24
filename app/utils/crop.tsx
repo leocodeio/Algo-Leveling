@@ -1,26 +1,27 @@
 import { useEffect, useState } from "react";
 import { Editor } from "@monaco-editor/react";
-import { useOutletContext } from "@remix-run/react"; // Import useOutletContext
 import { languageMap } from "~/constants/languageMap";
 
-export default function Code() {
-  const { selectedLanguage } = useOutletContext<{
-    selectedLanguage: number;
-  }>();
-
-  const [code, setCode] = useState<string>(
-    `// Write your ${languageMap[selectedLanguage]} code here\n\n`
-  );
-
+export default function Code({
+  userCode,
+  setUserCode,
+  selectedLanguage,
+}: {
+  userCode: string;
+  setUserCode: (value: string) => void;
+  selectedLanguage: number;
+}) {
   useEffect(() => {
     if (selectedLanguage) {
-      setCode(`// Write your ${languageMap[selectedLanguage]} code here\n\n`);
+      setUserCode(
+        `// Write your ${languageMap[selectedLanguage]} code here\n\n`
+      );
     }
   }, [selectedLanguage]);
 
   console.log(selectedLanguage);
   const handleEditorChange = (value: string | undefined) => {
-    setCode(value || "");
+    setUserCode(value || "");
   };
 
   return (
@@ -34,7 +35,7 @@ export default function Code() {
       <Editor
         height="100%"
         language={languageMap[selectedLanguage]}
-        value={code}
+        value={userCode}
         onChange={handleEditorChange}
         theme="vs-dark"
         options={{
