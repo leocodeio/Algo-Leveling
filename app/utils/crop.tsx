@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Editor } from "@monaco-editor/react";
 import { languageMap } from "~/constants/languageMap";
-
+import ResizableComponent from "./resize";
+import { useTheme } from "../contexts/themeContext";
 export default function Code({
   userCode,
   setUserCode,
@@ -24,25 +25,31 @@ export default function Code({
     setUserCode(value || "");
   };
 
+  const { isDarkMode } = useTheme();
+
   return (
-    <div
-      style={{
-        height: "800px",
-        width: "1000px",
-        border: "1px solid #ccc",
-      }}
-    >
-      <Editor
-        height="100%"
-        language={languageMap[selectedLanguage]}
-        value={userCode}
-        onChange={handleEditorChange}
-        theme="vs-dark"
-        options={{
-          selectOnLineNumbers: true,
-          automaticLayout: true,
-        }}
-      />
-    </div>
+    <>
+      <ResizableComponent>
+        <div
+          style={{
+            height: "100%",
+            width: "100%",
+            border: "1px solid #ccc",
+          }}
+        >
+          <Editor
+            height="100%"
+            language={languageMap[selectedLanguage]}
+            value={userCode}
+            onChange={handleEditorChange}
+            theme={isDarkMode ? "vs-dark" : "vs"}
+            options={{
+              selectOnLineNumbers: true,
+              automaticLayout: true,
+            }}
+          />
+        </div>
+      </ResizableComponent>
+    </>
   );
 }
