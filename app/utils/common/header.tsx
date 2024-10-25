@@ -14,13 +14,13 @@ const Header = () => {
 
   return (
     <nav
-      className={`bg-white h-20 ${
-        isDarkMode ? "dark:bg-gray-900" : "bg-white"
+      className={`bg-white ${
+        isDarkMode ? "dark:bg-[#1e1e1e]" : "bg-white"
       } fixed w-full z-20 top-0 start-0 border-b border-gray-200 ${
         isDarkMode ? "dark:border-gray-600" : "border-gray-200"
       }`}
     >
-      <div className="max-w-screen-xl flex items-center justify-between mx-auto p-4">
+      <div className="flex items-center justify-between mx-auto p-4">
         <a
           href="https://github.com/leocodeio"
           className="flex items-center space-x-3 rtl:space-x-reverse"
@@ -48,7 +48,7 @@ const Header = () => {
             }`}
             onClick={handleLogout}
           >
-            <IoLogOut size={35} />
+            <IoLogOut size={30} />
           </button>
         </div>
       </div>

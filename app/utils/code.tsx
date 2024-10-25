@@ -30,8 +30,8 @@ export default function Code({
     <>
       <div
         style={{
-          height: "600px",
-          width: "1200px",
+          height: "350px",
+          width: "600px",
           border: "1px solid #ccc",
         }}
       >

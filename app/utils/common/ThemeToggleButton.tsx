@@ -9,11 +9,11 @@ const ThemeToggleButton = () => {
     <button onClick={toggleTheme}>
       {isDarkMode ? (
         <div className="flex items-center justify-center">
-          <MdLightMode size={35} color="white" />
+          <MdLightMode size={30} color="white" />
         </div>
       ) : (
         <div className="flex items-center justify-center">
-          <MdDarkMode size={35} color="black" />
+          <MdDarkMode size={30} color="black" />
         </div>
       )}
     </button>
