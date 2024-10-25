@@ -1,9 +1,21 @@
+![image](https://github.com/user-attachments/assets/3c03aa0c-8f4d-4c41-8926-223167ec3800)
+
+## setup
+
+```
+install docker
+create project folder and open (vs or cursor)
+```
+
+## run needy services
+
 ```
 docker-compose up -d db redis
 sleep 10s
 docker-compose up -d
 sleep 5s
 ```
+
 ## setup database
 
 #### test connection
