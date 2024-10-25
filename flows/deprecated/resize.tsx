@@ -17,9 +17,9 @@ const ResizableComponent = ({ children }: { children: React.ReactNode }) => {
     <ResizableBox
       width={size.width}
       height={size.height}
-      resizeHandles={["e", "w", "s", "n"]}
+      resizeHandles={["w"]}
       onResize={handleResize}
-      minConstraints={[100, 100]}
+      minConstraints={[400, 100]}
       maxConstraints={[2000, 800]}
     >
       <div

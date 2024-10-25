@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { json } from "@remix-run/node";
 import { useActionData, Form, useLoaderData } from "@remix-run/react";
-import Code from "~/utils/crop";
+import Code from "~/utils/code";
 
 export const action = async ({ request }: { request: Request }) => {
   const formData = await request.formData();
