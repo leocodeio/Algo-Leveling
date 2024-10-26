@@ -130,4 +130,9 @@ psql -h localhost -U judge0 -d judge0 -p 8081 -f seed.sql
 
 ```
 
+### run the project
+    
+```
+pnpm install
+pnpm run dev
 ```
