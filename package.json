@@ -13,9 +13,11 @@
   "dependencies": {
     "@monaco-editor/react": "^4.6.0",
     "@prisma/client": "5.20.0",
+    "@remix-run/cloudflare": "^2.13.1",
     "@remix-run/node": "^2.13.1",
     "@remix-run/react": "^2.13.1",
     "@remix-run/serve": "^2.13.1",
+    "cloudflare": "^3.5.0",
     "isbot": "^4.1.0",
     "monaco-editor": "^0.52.0",
     "react": "^18.2.0",
