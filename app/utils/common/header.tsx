@@ -1,3 +1,4 @@
+// app/components/Header.tsx
 import { useNavigate } from "@remix-run/react";
 import { useTheme } from "../../contexts/themeContext";
 import ThemeToggleButton from "./ThemeToggleButton";
@@ -14,13 +15,13 @@ const Header = () => {
 
   return (
     <nav
-      className={`bg-white ${
+      className={`h-16 bg-white ${
         isDarkMode ? "dark:bg-[#1e1e1e]" : "bg-white"
-      } fixed w-full z-20 top-0 start-0 border-b border-gray-200 ${
+      } fixed w-full z-50 top-0 start-0 border-b border-gray-200 ${
         isDarkMode ? "dark:border-gray-600" : "border-gray-200"
       }`}
     >
-      <div className="flex items-center justify-between mx-auto p-4">
+      <div className="flex items-center justify-between mx-auto p-4 h-full">
         <a
           href="https://github.com/leocodeio"
           className="flex items-center space-x-3 rtl:space-x-reverse"
