@@ -72,7 +72,7 @@ inside docker container
 
 docker ps
 docker exec -it judge0-v1131-db-1 bash
-psql -h localhost -U judge0 -d judge0 -p 5432 -W
+psql -h localhost -U judge0 -d judge0 -p 8081 -W
 // enter password: you have mentioned in judge0.conf
 \q
 exit
@@ -130,9 +130,4 @@ psql -h localhost -U judge0 -d judge0 -p 8081 -f seed.sql
 
 ```
 
-### run the project
-    
-```
-pnpm install
-pnpm run dev
 ```

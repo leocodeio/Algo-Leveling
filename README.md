@@ -75,10 +75,3 @@ npx prisma migrate dev
 // copy data from seed.sql to the new database
 psql -h localhost -U judge0 -d judge0  -p 8081 -f seed.sql
 ```
-
-### run the project
-
-```
-pnpm install
-pnpm run dev
-```
