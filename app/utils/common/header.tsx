@@ -6,7 +6,6 @@ import { IoLogOut } from "react-icons/io5";
 const Header = () => {
   const navigate = useNavigate();
   const { isDarkMode } = useTheme();
-
   const handleLogout = () => {
     // session should be killed here
     navigate("/");
@@ -14,13 +13,13 @@ const Header = () => {
 
   return (
     <nav
-      className={`bg-white ${
-        isDarkMode ? "dark:bg-[#1e1e1e]" : "bg-white"
-      } fixed w-full z-20 top-0 start-0 border-b border-gray-200 ${
+      className={` bg-white ${
+        isDarkMode ? "dark:bg-[#1e1e1e]" : "bg-gray-300"
+      } w-full z-20 top-0 start-0 border-b border-gray-200 ${
         isDarkMode ? "dark:border-gray-600" : "border-gray-200"
       }`}
     >
-      <div className="flex items-center justify-between mx-auto p-4">
+      <div className="flex items-center justify-between mx-auto p-4 ">
         <a
           href="https://github.com/leocodeio"
           className="flex items-center space-x-3 rtl:space-x-reverse"

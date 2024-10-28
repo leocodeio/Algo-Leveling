@@ -3,6 +3,7 @@ import { json } from "@remix-run/node";
 import { useActionData, Form, useLoaderData } from "@remix-run/react";
 import Code from "~/utils/code";
 import { useTheme } from "~/contexts/themeContext";
+import { languageMap } from "~/utils/constants/languageMap";
 
 export const action = async ({ request }: { request: Request }) => {
   const formData = await request.formData();
@@ -10,7 +11,12 @@ export const action = async ({ request }: { request: Request }) => {
   const sourceCode = btoa(formData.get("sourceCode") as string);
   const languageId = formData.get("languageId");
   const stdin = btoa(formData.get("stdin") as string);
-
+  if (sourceCode === "") {
+    return json({
+      accepted: "No code provided",
+      output: "No code provided",
+    });
+  }
   // execute code on judge0
   const executionPayload = {
     source_code: sourceCode,
@@ -106,33 +112,22 @@ export default function Dummy() {
 
   const { isDarkMode } = useTheme();
   return (
-    <Form method="post" className={`${isDarkMode ? "bg-[#3e3e42]" : ""}`}>
-      <div className="w-screen h-screen flex items-center justify-between text-center font-sans p-2">
-        <div className="w-1/2 p-3">
-          <div className="space-y-2">
-            <label
-              htmlFor="languageId"
-              className="block text-xs font-medium text-gray-700"
-            >
-              Language ID
-            </label>
-            <select
-              name="languageId"
-              defaultValue={71}
-              className="mt-1 block w-auto border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-xs"
-              onChange={(e) => setSelectedLanguage(Number(e.target.value))}
-            >
-              {languages.map((language: { id: number; name: string }) => (
-                <option key={language.id} value={language.id}>
-                  {language.name}
-                </option>
-              ))}
-            </select>
-          </div>
+    <Form
+      method="post"
+      className={`${isDarkMode ? "bg-gray-600" : "bg-white"} `}
+    >
+      <div
+        className={`p-2 text-left ${
+          isDarkMode ? "text-white" : "text-black"
+        } w-screen h-screen flex justify-center font-sans`}
+      >
+        <div className="w-1/2 p-3 py-8">
           <div>
             <label
               htmlFor="stdin"
-              className="block text-xs font-medium text-gray-700"
+              className={`block text-xs font-bold ${
+                isDarkMode ? "text-gray-300" : "text-gray-700"
+              }`}
             >
               Stdin
             </label>
@@ -141,12 +136,20 @@ export default function Dummy() {
               name="stdin"
               rows={4}
               cols={20}
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-xs"
+              className={`mt-1 block w-full border ${
+                isDarkMode
+                  ? "border-gray-600 bg-gray-700 text-gray-300"
+                  : "border-gray-300"
+              } rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-xs`}
             />
           </div>
 
           <h2 className="text-sm font-semibold mt-3">API Response</h2>
-          <pre className="bg-gray-100 p-2 rounded-md w-full h-24 overflow-y-auto text-xs">
+          <pre
+            className={`bg-gray-100 p-2 rounded-md w-full h-24 overflow-y-auto text-xs ${
+              isDarkMode ? "bg-gray-700" : "bg-gray-100"
+            }`}
+          >
             {actionData && Response
               ? Object.entries(Response).map(([key, value]) => (
                   <div key={key} className="flex flex-col w-full">
@@ -156,11 +159,37 @@ export default function Dummy() {
               : "No response yet"}
           </pre>
           <h2 className="text-sm font-semibold mt-3">Request/Response Log</h2>
-          <pre className="bg-gray-100 p-2 rounded-md w-full h-24 overflow-y-auto text-xs">
+          <pre
+            className={`bg-gray-100 p-2 rounded-md w-full h-24 overflow-y-auto text-xs ${
+              isDarkMode ? "bg-gray-700" : "bg-gray-100"
+            }`}
+          >
             {log}
           </pre>
         </div>
-        <div className="w-1/2 p-3 flex flex-col gap-2">
+        <div className="w-1/2 p-3 flex flex-col gap-2 ">
+          <select
+            name="languageId"
+            defaultValue={71}
+            className={`mt-1 h-8 w-20 border ${
+              isDarkMode
+                ? "border-gray-600 bg-gray-700 text-gray-300"
+                : "border-gray-300"
+            } rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-xs`}
+            onChange={(e) => setSelectedLanguage(Number(e.target.value))}
+          >
+            {languages.map((language: { id: number; name: string }) => (
+              <option key={language.id} value={language.id}>
+                {language.name}
+              </option>
+            ))}
+          </select>
+          <p
+            className={`text-xs font-medium text-left ${
+              isDarkMode ? "text-gray-300" : "text-gray-700"
+            }`}
+            id="languageId"
+          >{`Write your ${languageMap[selectedLanguage]} code below...`}</p>
           <Code
             userCode={userCode}
             setUserCode={setUserCode}
