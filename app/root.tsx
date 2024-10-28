@@ -34,7 +34,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <ThemeProvider>
-        <body>
+        <body className="overflow-hidden">
           <Header />
           {children}
           <ScrollRestoration />

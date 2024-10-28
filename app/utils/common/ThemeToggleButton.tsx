@@ -1,4 +1,4 @@
-import React from "react";
+
 import { useTheme } from "../../contexts/themeContext";
 import { MdDarkMode, MdLightMode } from "react-icons/md";
 
