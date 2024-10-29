@@ -1,49 +1,58 @@
-![image](https://github.com/user-attachments/assets/3c03aa0c-8f4d-4c41-8926-223167ec3800)
 
-## setup
+![WhatsApp Image 2024-10-29 at 17 52 38_02e84587](https://github.com/user-attachments/assets/acce006d-a9ad-4c98-aa73-e97af8da222d)
+![WhatsApp Image 2024-10-29 at 17 52 46_a70e27e7](https://github.com/user-attachments/assets/6ec9df75-0805-42eb-9646-0c9997c9ad90)
 
+
+## 🚀 Setup
+
+```bash
+# 🐳 Install Docker
+# 📂 Create Project Folder and open it (VS Code or preferred editor)
 ```
-install docker
-create project folder and open (vs or cursor)
-```
 
-## run needy services
+---
 
-```
+## 🛠️ Run Needy Services
+
+```bash
 docker-compose up -d db redis
 sleep 10s
 docker-compose up -d
 sleep 5s
 ```
 
-## setup database
+---
 
-#### test connection
+## 🗄️ Database Setup
 
-inside docker container
+### 🧪 Test Connection
 
-```
+Inside Docker container:
+
+```bash
 docker ps
 docker exec -it judge0-v1131-db-1 bash
 psql -h localhost -U judge0 -d judge0 -p 5432 -W
-// enter password: you have mentioned in judge0.conf
+# enter password: you have mentioned in judge0.conf
 \q
 exit
 ```
 
-In local terminal
+In local terminal:
 
-```
+```bash
 psql -h localhost -U judge0 -d judge0 -p 8081 -W
-// enter password: you have mentioned in judge0.conf
+# enter password: you have mentioned in judge0.conf
 \q
 ```
 
-#### create database
+---
 
-**There is no need to create database manually. It will be created automatically when the docker container is started.**
+### 📂 Create Database
 
-```
+**Note**: No manual creation is needed. The database initializes automatically when the Docker container starts.
+
+```sql
 judge0=# \dt
                List of relations
  Schema |         Name         | Type  | Owner
@@ -56,31 +65,33 @@ judge0=# \dt
 (5 rows)
 ```
 
-But in this project, we need to add some tables manually for user management and parallel judge0.
-**we take out the data from the database and save it to a file.**
-and then we will use the file to create a new database for the project.
-**we will use the file to copy the date from the file to the new database.**
+**Additional Tables**: We will add tables manually for user management and parallel Judge0 functions. 
 
-```
+### 📑 Exporting and Importing Data
+
+```bash
 pnpm install prisma
 npx prisma init
 
-// write up the data to the file
+# Export data to file
 cd prisma
 pg_dump -h localhost -U judge0 -d judge0 -p 8081 --data-only -f seed.sql
 
-// create a new database
+# Create new database and import
 npx prisma migrate dev
-
-// copy data from seed.sql to the new database
-psql -h localhost -U judge0 -d judge0  -p 8081 -f seed.sql
+psql -h localhost -U judge0 -d judge0 -p 8081 -f seed.sql
 ```
 
-### run the project
+---
 
-cd ui
+### 🏃‍♂️ Run the Project
 
-```
+Navigate to `ui` folder:
+
+```bash
 pnpm install
 pnpm run dev
 ```
+
+---
+
