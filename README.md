@@ -1,6 +1,7 @@
 
-readme_content = """
-![image](https://github.com/user-attachments/assets/3c03aa0c-8f4d-4c41-8926-223167ec3800)
+![WhatsApp Image 2024-10-29 at 17 52 38_02e84587](https://github.com/user-attachments/assets/acce006d-a9ad-4c98-aa73-e97af8da222d)
+![WhatsApp Image 2024-10-29 at 17 52 46_a70e27e7](https://github.com/user-attachments/assets/6ec9df75-0805-42eb-9646-0c9997c9ad90)
+
 
 ## 🚀 Setup
 
@@ -33,7 +34,7 @@ docker ps
 docker exec -it judge0-v1131-db-1 bash
 psql -h localhost -U judge0 -d judge0 -p 5432 -W
 # enter password: you have mentioned in judge0.conf
-\\q
+\q
 exit
 ```
 
@@ -42,7 +43,7 @@ In local terminal:
 ```bash
 psql -h localhost -U judge0 -d judge0 -p 8081 -W
 # enter password: you have mentioned in judge0.conf
-\\q
+\q
 ```
 
 ---
@@ -52,7 +53,7 @@ psql -h localhost -U judge0 -d judge0 -p 8081 -W
 **Note**: No manual creation is needed. The database initializes automatically when the Docker container starts.
 
 ```sql
-judge0=# \\dt
+judge0=# \dt
                List of relations
  Schema |         Name         | Type  | Owner
 --------+----------------------+-------+--------
