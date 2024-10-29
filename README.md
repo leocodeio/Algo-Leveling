@@ -78,6 +78,8 @@ psql -h localhost -U judge0 -d judge0  -p 8081 -f seed.sql
 
 ### run the project
 
+cd ui
+
 ```
 pnpm install
 pnpm run dev
