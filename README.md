@@ -1,7 +1,5 @@
-
 ![WhatsApp Image 2024-10-29 at 17 52 38_02e84587](https://github.com/user-attachments/assets/acce006d-a9ad-4c98-aa73-e97af8da222d)
 ![WhatsApp Image 2024-10-29 at 17 52 46_a70e27e7](https://github.com/user-attachments/assets/6ec9df75-0805-42eb-9646-0c9997c9ad90)
-
 
 ## 🚀 Setup
 
@@ -65,7 +63,7 @@ judge0=# \dt
 (5 rows)
 ```
 
-**Additional Tables**: We will add tables manually for user management and parallel Judge0 functions. 
+**Additional Tables**: We will add tables manually for user management and parallel Judge0 functions.
 
 ### 📑 Exporting and Importing Data
 
@@ -86,7 +84,21 @@ psql -h localhost -U judge0 -d judge0 -p 8081 -f seed.sql
 
 ### 🏃‍♂️ Run the Project
 
-Navigate to `ui` folder:
+Navigate to `web-app/be-source` folder:
+
+```bash
+pnpm install
+pnpm run dev
+```
+
+Navigate to `web-app/problem-generator` folder:
+
+```bash
+pnpm install
+pnpm run generate
+```
+
+Navigate to `web-app/ui-source` folder:
 
 ```bash
 pnpm install
@@ -94,4 +106,3 @@ pnpm run dev
 ```
 
 ---
-

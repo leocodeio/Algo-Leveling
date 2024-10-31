@@ -42,3 +42,7 @@ node dist/index.js
 # Alternatively, run the TypeScript file directly (if not compiled)
 
 node src/index.js
+
+# Generate the problem details
+pnpm generate
+

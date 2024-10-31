@@ -4,7 +4,6 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { ThemeProvider } from "./contexts/themeContext";
 import React from "react";
-
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
