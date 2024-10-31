@@ -1,5 +1,8 @@
 import fs from "fs";
 import path from "path";
+import dotenv from "dotenv";
+dotenv.config();
+
 
 export async function generateProblemsMarkdown(
   problemsDir: string
@@ -91,4 +94,4 @@ export async function generateProblemsMarkdown(
 }
 
 // Call the function
-generateProblemsMarkdown("../problems");
+generateProblemsMarkdown(process.env.PROBLEMS_DIR as string);
