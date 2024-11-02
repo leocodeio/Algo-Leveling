@@ -1,31 +1,32 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import Code from "../utils/code";
 import { useTheme } from "../contexts/themeContext";
 import { languageMap } from "../utils/constants/languageMap";
 import axios from "axios";
-
+import { MaskedLanguages } from "../utils/constants/languages";
 const Dummy = () => {
   const [log, setLog] = useState<string[]>([]);
   const [selectedLanguage, setSelectedLanguage] = useState<number>(71);
   const [userCode, setUserCode] = useState<string>("");
-  const [languages, setLanguages] = useState<any[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [languages, setLanguages] = useState<any[]>(MaskedLanguages);
   const [stdin, setStdin] = useState<string>("");
   const { isDarkMode } = useTheme();
 
-  useEffect(() => {
-    const fetchLanguages = async () => {
-      try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_BACKEND_URL}/languages`
-        );
-        console.log(response.data);
-        setLanguages(response.data.languages || []);
-      } catch (error) {
-        console.error("Failed to load languages:", error);
-      }
-    };
-    fetchLanguages();
-  }, []);
+  // useEffect(() => {
+  //   const fetchLanguages = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         `${process.env.REACT_APP_BACKEND_URL}/languages`
+  //       );
+  //       console.log(response.data);
+  //       setLanguages(response.data.languages || []);
+  //     } catch (error) {
+  //       console.error("Failed to load languages:", error);
+  //     }
+  //   };
+  //   fetchLanguages();
+  // }, []);
 
   // Function to handle form submission
   const handleSubmit = async (e: React.FormEvent) => {

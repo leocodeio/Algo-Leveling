@@ -24,7 +24,7 @@ interface ExecutionResponse {
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors({ origin: "http://localhost:3000" }));
+app.use(cors({ origin: process.env.VITE_FRONTEND_URI }));
 
 // Endpoint to handle code execution (similar to `action` in your code)
 app.post("/execute", async (req: any, res: any) => {
