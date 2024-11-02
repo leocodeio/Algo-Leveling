@@ -1,5 +1,7 @@
 import fs from "fs";
 import path from "path";
+import dotenv from "dotenv";
+dotenv.config();
 
 export class ProblemDefinitionParser {
   problemName: string = "";
@@ -294,4 +296,4 @@ async function generateBoilerplatesForAllProblems(problemsDir: string) {
 }
 
 // Call the function to process all problems
-generateBoilerplatesForAllProblems("../problems");
+generateBoilerplatesForAllProblems(process.env.PROBLEMS_DIR as string);
