@@ -63,14 +63,41 @@ model Problem {
   contestSubmissions ContestSubmission[]
   contests           ContestProblem[]
   submissions        Submission[]
-  defaultCode        DefaultCode[]
+  testcases          Testcase[]
+  BoilerCode         BoilerCode[]
+  FullCode           FullCode[]
 }
 
-model DefaultCode {
+model Testcase {
+  id        String   @id @default(cuid())
+  problemId String
+  input     String //base64 encoded
+  output    String //base64 encoded
+  problem   Problem  @relation(fields: [problemId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([problemId])
+}
+
+model BoilerCode {
   id         String   @id @default(cuid())
   languageId Int
   problemId  String
-  code       String
+  code       String //not base64 encoded
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  problem    Problem  @relation(fields: [problemId], references: [id])
+  language   Language @relation(fields: [languageId], references: [id])
+
+  @@unique([problemId, languageId])
+}
+
+model FullCode {
+  id         String   @id @default(cuid())
+  languageId Int
+  problemId  String
+  code       String //not base64 encoded
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   problem    Problem  @relation(fields: [problemId], references: [id])
@@ -90,19 +117,20 @@ model Submission {
   status          SubmissionResult @default(PENDING)
   memory          Int?
   time            Float?
-  testcases       submissions[]
+  testcaseResults submissions[]
   activeContest   Contest?         @relation(fields: [activeContestId], references: [id])
   user            User             @relation(fields: [userId], references: [id])
   problem         Problem          @relation(fields: [problemId], references: [id])
 }
 
 model Language {
-  id          Int           @id @default(autoincrement())
-  name        String
-  judge0Id    Int           @unique
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  DefaultCode DefaultCode[]
+  id         Int          @id @default(autoincrement())
+  name       String
+  judge0Id   Int          @unique
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  BoilerCode BoilerCode[]
+  FullCode   FullCode[]
 }
 
 model ContestSubmission {

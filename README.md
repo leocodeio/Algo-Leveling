@@ -68,6 +68,7 @@ judge0=# \dt
 ### 📑 Exporting and Importing Data
 
 ```bash
+cd web-app/be-source
 pnpm install prisma
 npx prisma init
 
@@ -87,6 +88,7 @@ psql -h localhost -U judge0 -d judge0 -p 8081 -f seed.sql
 Navigate to `web-app/be-source` folder:
 
 ```bash
+cd web-app/be-source
 pnpm install
 pnpm run dev
 ```
@@ -94,6 +96,7 @@ pnpm run dev
 Navigate to `web-app/problem-generator` folder:
 
 ```bash
+cd web-app/problem-generator
 pnpm install
 pnpm run generate
 ```
@@ -101,6 +104,7 @@ pnpm run generate
 Navigate to `web-app/ui-source` folder:
 
 ```bash
+cd web-app/ui-source
 pnpm install
 pnpm run dev
 ```
