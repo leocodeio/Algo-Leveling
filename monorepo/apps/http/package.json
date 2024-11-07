@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc -b",
-    "start": "node dist/index.js"
+    "build": "npx esbuild src/index.ts --bundle --outfile=dist/index.js --platform=node --tsconfig=tsconfig.json",
+    "start": "nodemon dist/index.js",
+    "dev": "npx esbuild src/index.ts --bundle --outfile=dist/index.js --platform=node --tsconfig=tsconfig.json --watch"
   },
   "keywords": [],
   "author": "",
@@ -12,8 +13,12 @@
   "description": "",
   "dependencies": {
     "@repo/db": "workspace:*",
+    "@types/bcrypt": "^5.0.2",
+    "bcrypt": "^5.1.1",
     "express": "^4.21.1",
-    "typescript": "5.5.4"
+    "nodemon": "^3.1.7",
+    "typescript": "5.5.4",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/express": "^5.0.0",

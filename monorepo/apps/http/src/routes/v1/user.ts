@@ -1,11 +1,11 @@
 import { Router } from "express";
+import { signup } from "../../controllers/user";
+export const userRouter = Router();
 
-export const router = Router();
+userRouter.post("/signup", signup);
 
-router.get("/signup", (req, res) => {});
+userRouter.post("/login", (req, res) => {});
 
-router.get("/login", (req, res) => {});
+userRouter.get("/logout", (req, res) => {});
 
-router.get("/logout", (req, res) => {});
-
-router.get("/profile", (req, res) => {});
+userRouter.get("/profile", (req, res) => {});
