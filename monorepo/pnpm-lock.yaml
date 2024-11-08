@@ -97,6 +97,10 @@ importers:
       prisma:
         specifier: ^5.22.0
         version: 5.22.0
+    devDependencies:
+      '@types/node':
+        specifier: ^22.9.0
+        version: 22.9.0
 
   packages/eslint-config:
     devDependencies:
