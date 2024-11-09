@@ -17,7 +17,7 @@ export const isAuthenticated = async (
   const { Authorization } = req.cookies;
   if (!Authorization) {
     res.status(401).json({
-      message: "You did not have permission to access this resource",
+      message: "You are not signed in",
     });
     return;
   }

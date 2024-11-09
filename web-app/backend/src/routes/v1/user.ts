@@ -8,7 +8,7 @@ userRouter.post("/signup", signup);
 
 userRouter.post("/signin", signin);
 
-userRouter.get("/signout", signout);
+userRouter.get("/signout", isAuthenticated, signout);
 
 userRouter.get("/profile", isAuthenticated, getProfile);
 

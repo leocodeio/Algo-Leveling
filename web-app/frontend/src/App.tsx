@@ -9,6 +9,7 @@ import Profile from "./components/Profile";
 import Signin from "./components/Signin";
 import Signup from "./components/Signup";
 import Play from "./components/Play";
+import Dashboard from "./components/Dashboard";
 
 function App() {
   return (
@@ -17,12 +18,13 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<Entry />} />
-          <Route path="/credits" element={<Credits />} />
-          <Route path="/dummy" element={<Dummy />} />
-          <Route path="/play" element={<Play />} />
-          <Route path="/signin" element={<Signin />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/signin" element={<Signin />} />
+          <Route path="/play" element={<Play />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/dummy" element={<Dummy />} />
+          <Route path="/credits" element={<Credits />} />
           <Route path="*" element={<Error />} />
         </Routes>
       </BrowserRouter>

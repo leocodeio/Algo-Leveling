@@ -10,6 +10,9 @@ const Entry = () => {
       >
         Sample
       </Link>
+      <Link className="text-blue-500" to="/signup">
+        Access the main project, <p className="inline underline">here</p>
+      </Link>
     </div>
   );
 };
