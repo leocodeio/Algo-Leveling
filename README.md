@@ -19,56 +19,10 @@ docker-compose up -d
 sleep 5s
 ```
 
----
-
-## 🗄️ Database Setup
-
-### 🧪 Test Connection
-
-Inside Docker container:
-
-```bash
-docker ps
-docker exec -it judge0-v1131-db-1 bash
-psql -h localhost -U judge0 -d judge0 -p 5432 -W
-# enter password: you have mentioned in judge0.conf
-\q
-exit
-```
-
-In local terminal:
-
-```bash
-psql -h localhost -U judge0 -d judge0 -p 8081 -W
-# enter password: you have mentioned in judge0.conf
-\q
-```
-
----
-
-### 📂 Create Database
-
-**Note**: No manual creation is needed. The database initializes automatically when the Docker container starts.
-
-```sql
-judge0=# \dt
-               List of relations
- Schema |         Name         | Type  | Owner
---------+----------------------+-------+--------
- public | ar_internal_metadata | table | judge0
- public | clients              | table | judge0
- public | languages            | table | judge0
- public | schema_migrations    | table | judge0
- public | submissions          | table | judge0
-(5 rows)
-```
-
-**Additional Tables**: We will add tables manually for user management and parallel Judge0 functions.
-
 ### 📑 Exporting and Importing Data
 
 ```bash
-cd web-app/be-source
+cd web-app/backend
 pnpm install prisma
 npx prisma init
 
@@ -85,10 +39,10 @@ psql -h localhost -U judge0 -d judge0 -p 8081 -f seed.sql
 
 ### 🏃‍♂️ Run the Project
 
-Navigate to `web-app/be-source` folder:
+Navigate to `web-app/backend` folder:
 
 ```bash
-cd web-app/be-source
+cd web-app/backend
 pnpm install
 pnpm run dev
 ```
@@ -101,10 +55,10 @@ pnpm install
 pnpm run generate
 ```
 
-Navigate to `web-app/ui-source` folder:
+Navigate to `web-app/frontend` folder:
 
 ```bash
-cd web-app/ui-source
+cd web-app/frontend
 pnpm install
 pnpm run dev
 ```
