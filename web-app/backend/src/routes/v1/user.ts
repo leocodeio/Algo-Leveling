@@ -1,13 +1,15 @@
 import { Router } from "express";
-import { signup } from "../../controllers/user";
+import { getProfile, signup, signout, signin } from "../../controllers/user";
+import { isAuthenticated } from "../../middleware/user";
+
 const userRouter = Router();
 
 userRouter.post("/signup", signup);
 
-userRouter.post("/login", (req, res) => {});
+userRouter.post("/signin", signin);
 
-userRouter.get("/logout", (req, res) => {});
+userRouter.get("/signout", signout);
 
-userRouter.get("/profile", (req, res) => {});
+userRouter.get("/profile", isAuthenticated, getProfile);
 
 export default userRouter;

@@ -18,3 +18,18 @@ export const logoutSchema = z.object({
 export const profileSchema = z.object({
   token: z.string(),
 });
+
+export type User = {
+  id: string;
+  email: string;
+  username: string;
+};
+
+export type TokenPayload = {
+  id: string;
+};
+
+export type ResponseData = {
+  message: string;
+  payload: any;
+};

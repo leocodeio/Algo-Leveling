@@ -4,6 +4,7 @@ import judgeRouter from "./routes/v1/judge";
 import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 
 import dotenv from "dotenv";
 dotenv.config();
@@ -11,7 +12,8 @@ dotenv.config();
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors({ origin: process.env.VITE_FRONTEND_URI }));
+app.use(cors({ origin: "*", credentials: true }));
+app.use(cookieParser());
 
 app.use("/user/v1", userRouter);
 app.use("/judge/v1", judgeRouter);

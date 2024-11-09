@@ -2,27 +2,34 @@ import { loginSchema, signupSchema } from "../types/index";
 import client from "../db/client";
 import { compare, hash } from "../utils/crypt/mycrypt";
 import { Request, Response } from "express";
+import { createCookie } from "../utils/cookie/createCookie";
+import { createToken } from "../utils/token/createToken";
+import { destroyCookie } from "../utils/cookie/destroyCookie";
 
 export const signup = async (req: Request, res: Response): Promise<void> => {
   try {
     const signupData = signupSchema.safeParse(req.body);
     if (!signupData.success) {
       res.status(400).json({
-        error: "Validation failed",
-        details: signupData.error.errors,
+        message: "Validation failed",
+        payload: {
+          details: signupData.error.errors,
+        },
       });
       return;
     }
 
     const { email, username, password } = signupData.data;
     const user = await client.user.findFirst({
-      where: { email },
+      where: { OR: [{ username }, { email }] },
     });
 
     if (user) {
       res.status(409).json({
-        error: "Account already exists",
         message: "An account with this email already exists",
+        payload: {
+          details: "Email already exists",
+        },
       });
       return;
     }
@@ -49,19 +56,23 @@ export const signup = async (req: Request, res: Response): Promise<void> => {
   } catch (error) {
     console.error("Signup error:", error);
     res.status(500).json({
-      error: "Internal server error",
       message: "An unexpected error occurred during signup",
+      payload: {
+        details: "Internal server error",
+      },
     });
   }
 };
 
-export const login = async (req: Request, res: Response): Promise<void> => {
+export const signin = async (req: Request, res: Response): Promise<void> => {
   try {
     const loginData = loginSchema.safeParse(req.body);
     if (!loginData.success) {
       res.status(400).json({
-        error: "Validation failed",
-        details: loginData.error.errors,
+        message: "Validation failed",
+        payload: {
+          details: loginData.error.errors,
+        },
       });
       return;
     }
@@ -74,7 +85,9 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     if (!user) {
       res.status(401).json({
         error: "Invalid credentials",
-        message: "No user found with the provided email",
+        payload: {
+          details: "No user found with the provided email",
+        },
       });
       return;
     }
@@ -83,20 +96,53 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     if (!isPasswordValid) {
       res.status(401).json({
         error: "Invalid credentials",
-        message: "The provided password is incorrect",
+        payload: {
+          details: "The provided password is incorrect",
+        },
       });
       return;
     }
 
+    const token = createToken({ id: user.id });
+    createCookie(req, res, token, {
+      message: "Signin successful",
+      payload: {},
+    });
+  } catch (error: any) {
+    console.error("Signin error:", error);
+    res.status(500).json({
+      message: "An unexpected error occurred during login",
+      payload: {
+        details: "Internal server error",
+      },
+    });
+  }
+};
+
+export const signout = async (req: Request, res: Response): Promise<void> => {
+  destroyCookie(req, res, {
+    message: "Signout successful",
+    payload: {},
+  });
+};
+
+export const getProfile = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const userId = req.userId;
+    const user = await client.user.findUnique({
+      where: { id: userId },
+    });
+
     res.status(200).json({
-      message: "Login successful",
-      user,
+      message: "Profile fetched successfully",
+      payload: {
+        user: user,
+      },
     });
   } catch (error) {
-    console.error("Login error:", error);
-    res.status(500).json({
-      error: "Internal server error",
-      message: "An unexpected error occurred during login",
-    });
+    console.error("Get profile error:", error);
   }
 };
