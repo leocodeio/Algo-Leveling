@@ -6,5 +6,13 @@ export const destroyCookie = (
   res: Response,
   responseData: ResponseData
 ): void => {
-  res.status(200).clearCookie("Authorization").json(responseData);
+  res
+    .status(200)
+    .clearCookie("Authorization", {
+      httpOnly: false,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/"
+    })
+    .json(responseData);
 };
