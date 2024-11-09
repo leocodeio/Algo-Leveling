@@ -5,7 +5,8 @@
 
 ```bash
 # 🐳 Install Docker
-# 📂 Create Project Folder and open it (VS Code or preferred editor)
+# 📂 git clone https://github.com/leocodeio/Algo-Leveling.git
+# 📂 cd Algo-Leveling
 ```
 
 ---
